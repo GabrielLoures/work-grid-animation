@@ -1,0 +1,182 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root { /* colocamos as variáveis que criamos no root */
+  --ff-heading: 'Epilogue', sans-serif; /* nomes das variáveis sempre começam com -- seguido do nome da variável (--varname) */
+  --bg-color: #28293E;
+  --fc-primary: #FFFFFF;
+  --fc-secondary: #BBB3E6;
+  --fc-terciary: #090039;
+
+  font-size: 62.5%;
+  --fs-small: 1.6rem;
+  --lh-small: 3.2rem;
+  --fs-big: 4.0rem;
+  --lh-big: 4.8rem;
+}
+
+body {
+  background: var(--bg-color); /* acessamos as variáveis criadas através do var() */
+  font-family: var(--ff-heading);
+  color: var(--fc-primary);
+}
+
+.page {
+  max-width: 33rem;
+  margin: 10.6rem auto; /* esses 10.6rem são do espaçamento de top e bottom do figma */
+}
+
+header {
+  text-align: center;
+
+  animation: topdown 900ms; /* usamos o shorthanded da animation para acessar a animação criada no @keyframes || os dois comandos usados no shorthanded nesse caso são o animation-name: topdown e o animation-duration: 900ms || existem 8 comandos do animation (estudar mais afundo depois cada um deles) */
+}
+
+header p {
+  color: var(--fc-secondary);
+  text-transform: uppercase;
+
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  letter-spacing: 3px;
+  font-weight: 400;
+
+  margin-bottom: 1.7rem;
+}
+
+header h1 {
+  margin-bottom: 8rem;
+}
+
+header h1 {
+  color: var(--fc-primary);
+
+  font-size: var(--fs-big);
+  line-height: var(--lh-big);
+  font-weight: 800;
+}
+
+main {
+  display: grid;
+  gap: 3.2rem;
+
+  animation: downtop 900ms 400ms backwards; /* os 400ms são o valor do animation-delay (vai demorar 400ms para iniciar a animação; o segundo valor de tempo no shorthanded sempre é do delay e o primeiro sempre é do animation-duration) || o backwards é o valor do animation-fill-mode (o animation-fill-mode: backwards faz com que as propriedades iniciais do elemento seja do 0% descrito na @keyframes); se não usassemos o backwards, o elemento iniciaria a animação no estado original dele, que é opacity: 1 e translateY(0), e como tem delay na animação o elemento estaria na tela até ela se iniciar */
+}
+
+.card {
+  position: relative;
+}
+
+.card img {
+  width: 100%; /* ao utilizar o width de 100%, as imagens se ajustam ao tamanho do width definido na .page (ou em qualquer outro lugar) */
+  height: 41.6rem;
+
+  border-radius: 6px;
+
+  object-fit: cover; /* comando que faz a imagem ficar centralizada no espaço definido por nós acima (width:100% e height: 41.6rem); importante observar que ele não distorce a imagem, mas corta parte dela se ela não couber no espaço definido */
+
+  transition: all 350ms; /* primeiramente, temos que colocar os transitions no .card img e não no hover porque no hover ele acataria o comando juntamente ao transform e daria errado; o primeiro elemento do comando transition é o transition-property, que colocamos com qual comando ele irá trabalhar (no caso colocamos "all" para ele trabalhar tanto com o transform quanto com o opacity; se quiséssemos trabalhar só com o transform por exemplo, escreveríamos somente "transform") || o segundo elemento é o transition-duration, que é o tempo que irá acontecer a transition */
+
+  filter: brightness(0.5) saturate(1.5); /* o filter serve para alterarmos a imagem com algumas propriedades (no caso alteramos o brilho e a saturação) || usamos esse comando para o texto presente em cada imagem ficar mais visível */
+}
+
+.card img:hover {
+  transform: scale(1.02); /* comando que faz com que a imagem mude (nesse caso vamos utilizar o subcomando "scale", que aumenta a imagem) -> estudar todos os subcomandos do transform*/
+  opacity: 0.5;
+}
+
+.card h2 {
+  position: absolute; /* como temos o h2 e o span posicionados em cima de um outro elemento (img no caso), utilizamos esse comando para posicioná-lo lá dentro; IMPORTANTE: devemos estabelecer o position do elemento em que o elemento com position absolute estará contido como position relative (no caso fizemos isso na div .card acima) */
+  bottom: 5.2rem;
+  left: 2.8rem;
+
+  color: var(--fc-primary);
+
+  font-size: 4.0rem;
+  line-height: var(--lh-big);
+  font-weight: 800;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.3rem;
+}
+
+.card h2 span {
+  color: var(--fc-terciary);
+
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  font-weight: 400;
+
+  background: var(--fc-primary);
+  border-radius: 19px;
+  display: inline-flex; /* usamos esse display para habilitar o uso do height (no span não conseguimos alterar o height, só se colocarmos nesse display) */
+  padding: 0 1.6rem;
+  align-items: center;
+  height: 3.8rem;
+
+  width: fit-content; /* IMPORTANTE: temos que utilizar esse parâmetro no width para que o padding de 1.6rem se aplique nos dois lados da caixa; se não utilizarmos isso, a caixa irá cobrir toda a extensão do box do .card h2 acima */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --fs-big: 5.6rem;
+  }
+
+  .page {
+    max-width: 117rem;
+    padding: 0 5rem;
+  }
+
+  main {
+    display: grid;
+    grid-template-areas: "imgA imgB imgB" "imgC imgC imgD"; /* nomeamos as areas dos espaçamentos do grid (utilizamos duas vezes a imgB e imgC porque no figma essas imagens tem o dobro do tamanho das imgA e imgD */
+  }
+
+  main div:nth-child(1) { /* podemos acessar os elementos através do nth-child(posição dele no html) */
+    grid-area: imgA; /* o grid-area pega as variáveis que criamos no grid-template-areas e ajusta de acordo com a quantidade de vezes que ele está se repetindo */
+  }
+
+  main div:nth-child(2) {
+    grid-area: imgB;
+  }
+
+  main div:nth-child(3) {
+    grid-area: imgC;
+  }
+
+  main div:nth-child(4) {
+    grid-area: imgD;
+  }
+}
+
+@keyframes topdown { /* com o comando @keyframes, criamos uma animação e damos um nome a ela (nomeamos essa de "topdown") || aqui nós só criamos a animação; para acessar ela, devemos ir no elemento que queremos que faça a animação e usar o comando animation (nesse caso vamos usar no header) */
+  0% { /* usamos as % para definir o estado da animação em cada etapa do tempo que ela irá durar (nesse caso ela irá iniciar com opacity: 0, ou seja, sem aparecer na tela e 20px acima do estado original dela no eixo Y (vertical) */
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes downtop {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
